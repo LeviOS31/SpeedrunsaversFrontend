@@ -9,23 +9,24 @@
                     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                         <label for="runname" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Run Name</label>
                         <div class="mt-2 sm:col-span-2 sm:mt-0">
-                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                <input type="text" name="runname" id="runname" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="My first run" />
-                            </div>
+                            <input type="text" name="runname" id="runname" class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6" />
+                            <p id="runname-error" class=" text-red-500"></p>
                         </div>
                     </div>
 
                     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                         <label for="description" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Description</label>
                         <div class="mt-2 sm:col-span-2 sm:mt-0">
-                            <textarea id="description" name="description" rows="3" class="block w-full max-w-2xl rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <textarea id="description" name="description" rows="3" class="block w-full max-w-2xl rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6" />
                             <p class="mt-3 text-sm leading-6 text-gray-600">You can add extra info about the run here like what game version you are on.</p>
+                            <p id="description-error" class=" text-red-500"></p>
                         </div>
                     </div>
                     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                        <label for="videolink" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Speedrun video link</label>
+                        <label for="videolink" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Speedrun Youtube link</label>
                         <div class="mt-2 sm:col-span-2 sm:mt-0">
-                        <input type="text" name="videolink" id="videolink" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
+                            <input type="text" name="videolink" id="videolink" class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6" />
+                            <p id="videolink-error" class=" text-red-500"></p>
                         </div>
                     </div>
 
@@ -41,24 +42,25 @@
                                 <div class="x-input-runtime-unit" aria-hidden="true">s</div>
                                 <input type="number" name="millisecond" maxlength="3" autocomplete="off" class="x-input-runtime" aria-label="In-Game Time milliseconds" value="">
                                 <div class="x-input-runtime-unit" aria-hidden="true">ms</div>
-                            </div>  
+                            </div>
+                            <p id="time-error" class=" text-red-500"></p>
                         </div>
                     </div>
 
                     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                         <label for="category" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Category</label>
                         <div class="mt-2 sm:col-span-2 sm:mt-0">
-                        <select id="category" name="category" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                        <select id="category" name="category" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6">
                             <option v-for="category in props.categories" :value="category.id">{{ category.categoryName }}</option>
-                        </select>
+                        </select> 
                         </div>
                     </div>
 
                     <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                        <label for="category" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Platform</label>
+                        <label for="platform" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Platform</label>
                         <div class="mt-2 sm:col-span-2 sm:mt-0">
-                        <select id="category" name="category" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                            <option v-for="platform in props.platforms" :value="platform.id">{{ platform.platformName }}</option>
+                        <select id="platform" name="platform" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            <option v-for="platform in props.game.platforms.$values" :value="platform.id">{{ platform.platformName }}</option>
                         </select>
                         </div>
                     </div>
@@ -66,9 +68,14 @@
                 </div>
             </div>
         </div>
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" @click="submit()" class="inline-flex justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Save</button>
+        </div>
     </form>
 </template>
 <script setup lang="ts">
+import { SubmitSpeedrun } from '~/composables/Speedrun';
+
 let props = defineProps({
     game: {
         type: Object,
@@ -77,12 +84,99 @@ let props = defineProps({
     categories: {
         type: Array,
         required: true
-    },
-    platforms: {
-        type: Array,
-        required:true
     }
 })
+
+function submit (){
+    console.log("submit")
+    document.getElementById("runname-error").innerHTML = ""
+    document.getElementById("videolink-error").innerHTML = ""
+    document.getElementById("time-error").innerHTML = ""
+    let runname = document.getElementById("runname") as HTMLInputElement
+    let description = document.getElementById("description") as HTMLInputElement
+    let videolink = document.getElementById("videolink") as HTMLInputElement
+    let hour = document.getElementsByName("hour")[0] as HTMLInputElement
+    let minute = document.getElementsByName("minute")[0] as HTMLInputElement
+    let second = document.getElementsByName("second")[0] as HTMLInputElement
+    let millisecond = document.getElementsByName("millisecond")[0] as HTMLInputElement
+    let category = document.getElementById("category") as HTMLInputElement
+    let platform = document.getElementById("platform") as HTMLInputElement
+    
+    if(!checkname(runname.value)){
+        let error = document.getElementById("runname-error") as HTMLInputElement
+        error.innerHTML = "Run name must be at least 3 characters long"
+        return
+    }
+    if(!checklink(videolink.value)){
+        let error = document.getElementById("videolink-error") as HTMLInputElement
+        error.innerHTML = "Video link must be a valid youtube link"
+        return
+    }
+    if(!checktime(parseInt(hour.value),parseInt(minute.value), parseInt(second.value), parseInt(millisecond.value))){
+        let error = document.getElementById("time-error") as HTMLInputElement
+        error.innerHTML = "Time must be a valid time"
+        return
+    }
+
+    let time = new Date(0,0,0,parseInt(hour.value),parseInt(minute.value), parseInt(second.value), parseInt(millisecond.value)).toISOString();
+
+    let dataspeedrun = `
+        {
+            "speedrunName": "${runname.value}",
+            "speedrunDescription": "${description.value}",
+            "time": "${time}",
+            "date": "${new Date().toISOString()}",
+            "videoLink": "${videolink.value}",
+            "categoryId": ${category.value},
+            "platformId": ${platform.value},
+            "status": 0,
+            "userId": 3
+        }
+    `
+    console.log(dataspeedrun)
+    console.log(SubmitSpeedrun(dataspeedrun))
+}
+
+function checkname(name:string){
+    if(name.length < 3){
+        return false
+    }
+    return true
+}
+
+function checklink(link:string){
+    if(link.length < 3){
+        return false
+    }
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)(\S+)?$/;
+    if(!youtubeRegex.test(link)){
+        return false
+    }
+    return true
+}
+
+function checktime(hour:number, minute:number, second:number, millisecond:number){
+    if(isNaN(hour) || isNaN(minute) || isNaN(second) || isNaN(millisecond)){
+        return false
+    }
+    if(hour < 0 || minute < 0 || second < 0 || millisecond < 0){
+        return false
+    }
+    if(minute == 0 && second == 0){
+        return false
+    }
+    if(minute > 59) {
+        return false
+    }
+    if(second > 59) {
+        return false
+    }
+    if(millisecond > 999) {
+        return false
+    }
+    return true
+}
+
 </script>
 
 <style>

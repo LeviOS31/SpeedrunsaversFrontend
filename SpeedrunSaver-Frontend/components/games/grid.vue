@@ -13,6 +13,10 @@ let props = defineProps({
         required: true
     }
 })
+for(let entry of props.entries)
+{
+    console.log(entry.id)
+}
 onMounted(() => {
     let images = document.querySelectorAll('img')
     for(let image of images)
