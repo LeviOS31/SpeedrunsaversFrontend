@@ -23,7 +23,7 @@
                     <button @click="rendersubmit" class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Upload speedrun</button>
                 </div>
             </div>
-            <SpeedrunsTable v-if="renderComponentleaderboard" :speedruns="speedrunscategory" :key="categoryid" ></SpeedrunsTable>
+            <SpeedrunsTable v-if="renderComponentleaderboard" :speedruns="speedrunscategory" :key="componentkey" ></SpeedrunsTable>
             <SpeedrunsSubmit v-if="renderComponentsubmit" :game="game" :categories="categories"></SpeedrunsSubmit>
         </div>
     </div>
@@ -42,6 +42,8 @@
 
     let id: string;
     let game:any;
+
+    let componentkey = ref(0);
     
     id = useRoute().query.id as string
     let idnumber = parseInt(id)
@@ -51,19 +53,19 @@
     console.log(game)
     
     let categories = await getCategories(idnumber)
-    categories = categories.$values
+    categories = categories
     console.log(categories)
     let categoryid = categories[0].id;
 
     let speedrunscategory = await getSpeedrunsByCategory(categoryid)
-    speedrunscategory = speedrunscategory.$values
+    speedrunscategory = speedrunscategory
     console.log(speedrunscategory)
 
     async function changedCategory (event) {
         console.log(event.target.value)
         categoryid = event.target.value
         speedrunscategory = await getSpeedrunsByCategory(categoryid)
-        speedrunscategory = speedrunscategory.$values
+        speedrunscategory = speedrunscategory
         console.log(speedrunscategory)
         forceRerender();
     }
@@ -71,15 +73,8 @@
     const renderComponentleaderboard = ref(true);
     const renderComponentsubmit = ref(false);
 
-    const forceRerender = async () => {
-        // Remove MyComponent from the DOM
-        renderComponentleaderboard.value = false;
-
-        // Wait for the change to get flushed to the DOM
-        await nextTick();
-
-        // Add the component back in
-        renderComponentleaderboard.value = true;
+    const forceRerender = () => {
+        componentkey.value += 1;
     };
 
     const rendersubmit = async () => {

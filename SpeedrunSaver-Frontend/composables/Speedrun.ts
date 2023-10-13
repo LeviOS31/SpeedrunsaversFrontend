@@ -14,8 +14,8 @@ export const SubmitSpeedrun = async (speedrun) => {
         },
         body: speedrun
     })
-        .then((res) => res.json())
-        .then((data) => {
-            return data;
-        });
+        .then((res) => {
+            console.log(res.status)
+            return res.status
+        })
 }

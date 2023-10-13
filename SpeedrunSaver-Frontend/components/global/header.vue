@@ -9,7 +9,8 @@
               </div>
               <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                  <NuxtLink v-for="item in navigation" :key="item.name" :to="item.link" :class="[item.current ? 'bg-green-700 text-white' : 'text-white hover:bg-green-500 hover:bg-opacity-75', 'rounded-md px-3 py-2 text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</NuxtLink >
+                  <NuxtLink v-for="item in navigation" :key="item.name" :to="item.link" class="text-white hover:bg-green-500 hover:bg-opacity-75 rounded-md px-3 py-2 text-sm font-medium">{{ item.name }}</NuxtLink >
+                 
                 </div>
               </div>
             </div>
@@ -22,6 +23,7 @@
                 <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
               </DisclosureButton>
             </div>
+            <NuxtLink :to="`/login`" class=" justify-self-end text-green-500 bg-gray-200 px-2 py-1 rounded-md hover:bg-slate-300">login</NuxtLink>
           </div>
         </div>
       </Disclosure>
@@ -29,8 +31,8 @@
   </template>
   
   <script setup>
-  import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-  import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+  import { Disclosure, DisclosureButton} from '@headlessui/vue'
+  import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
   const navigation = [
     { name: 'Games', link: '/', current: true },
