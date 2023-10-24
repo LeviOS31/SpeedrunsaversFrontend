@@ -1,7 +1,7 @@
 <template>
     <form>
         <div class="space-y-12 sm:space-y-16">
-            <div>
+            <div v-if="loggedin">
                 <h2 class="text-base font-semibold leading-7 text-gray-900">SUBMIT RUN</h2>
                 <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
 
@@ -68,13 +68,22 @@
                 </div>
             </div>
         </div>
-        <div class="mt-6 flex items-center justify-end gap-x-6">
+        <div class="mt-6 flex items-center justify-end gap-x-6" v-if="loggedin">
             <button type="button" @click="submit()" class="inline-flex justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Save</button>
+        </div>
+        <div v-if="!loggedin" class="flex flex-col items-center">
+            <p class="mb-1 max-w-2xl text-lg leading-10 text-gray-600">You need to be logged in to submit a run.</p>
+            <div>
+                <NuxtLink :to="'/login'" class="w-fit px-3 py-2 bg-green-600 text-white rounded-xl hover:bg-green-500 mr-1">Login</NuxtLink>
+                <NuxtLink @click="reload()" class="w-fit px-3 py-2 bg-gray-200 border-2 border-gray-500 text-black rounded-xl hover:bg-gray-100">Back</NuxtLink>
+            </div>
         </div>
     </form>
 </template>
 <script setup lang="ts">
 import { SubmitSpeedrun } from '~/composables/Speedrun';
+
+let loggedin = ref(false)
 
 let props = defineProps({
     game: {
@@ -86,6 +95,10 @@ let props = defineProps({
         required: true
     }
 })
+
+function reload(){
+    window.location.reload()
+}
 
 function submit (){
     console.log("submit")
@@ -176,6 +189,18 @@ function checktime(hour:number, minute:number, second:number, millisecond:number
     }
     return true
 }
+
+onMounted(async () => {
+    let token = localStorage.getItem("token")
+    let userid = localStorage.getItem("userid")
+    if (token != null) {
+      if(await verify(token, userid)) {
+        loggedin.value = true
+        console.log("logged in")
+      }
+    }
+  })
+
 
 </script>
 

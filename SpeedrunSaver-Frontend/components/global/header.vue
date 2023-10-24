@@ -23,20 +23,67 @@
                 <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
               </DisclosureButton>
             </div>
-            <NuxtLink :to="`/login`" class=" justify-self-end text-green-500 bg-gray-200 px-2 py-1 rounded-md hover:bg-slate-300">login</NuxtLink>
+            <NuxtLink v-if="!loggedin" :to="`/login`" class=" justify-self-end text-green-600 bg-gray-300 px-2 py-1 rounded-md hover:bg-slate-300">login</NuxtLink>
+            <div v-if="loggedin">
+              <button @click="dropdownswitch()" class="justify-self-end bg-gray-300 p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#16a34a" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+
+              </button>
+              <div id="dropdown" class="rounded-xl bg-gray-300 p-2 text-green-600" style="visibility: hidden; position: absolute;">
+                <NuxtLink :to="`/accountdetail`">Account</NuxtLink><br>
+                <button @click="logout()">Logout</button>
+              </div>
+            </div>
           </div>
         </div>
       </Disclosure>
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
+  import { verify } from '~/composables/User'
   import { Disclosure, DisclosureButton} from '@headlessui/vue'
   import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+
+  let loggedin = ref(false)
+  let dropdown = ref(false)
+  let username;
 
   const navigation = [
     { name: 'Games', link: '/', current: true },
     { name: 'Users', link: '/users', current: false },
     { name: 'Polls', link: '/polls', current: false },
   ]
+  
+  function dropdownswitch(){
+    dropdown.value = !dropdown.value
+    if(dropdown.value){
+      document.getElementById("dropdown").style.visibility = "visible"
+    }
+    else{
+      document.getElementById("dropdown").style.visibility = "hidden"
+    }
+  }
+
+  onMounted(async () => {
+    let token = localStorage.getItem("token")
+    let userid = localStorage.getItem("userid")
+    if (token != null) {
+      if(await verify(token, userid)) {
+        loggedin.value = true
+        console.log("logged in")
+      }
+      else{
+        window.location.href = "/login"
+      }
+    }
+  })
+
+  function logout(){
+    localStorage.removeItem("token")
+    localStorage.removeItem("userid")
+    window.location.href = "/"
+  }
   </script>

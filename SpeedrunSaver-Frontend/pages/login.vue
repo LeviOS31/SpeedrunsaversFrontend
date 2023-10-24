@@ -24,7 +24,9 @@
                         </button>
                     </div>
                 </div>
-
+                <div v-if="error">
+                    <p class="text-red-500">Username or password wrong</p>
+                </div>
                 <div>
                     <button type="button" @click="submit()" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                         <span class="absolute left-0 inset-y-0 flex items-center pl-3">
@@ -43,13 +45,12 @@
 
 <script setup lang="ts">
 import { login } from "~/composables/User";
-import { ref } from "vue";
 
 const showPassword = ref(false);
+let error = ref(false);
 
 async function submit() {
     let inputs = document.getElementsByTagName("input");
-    
     let object = {
         id: 0,
         username: inputs[0].value,
@@ -60,7 +61,16 @@ async function submit() {
     }
 
     let user = JSON.stringify(object);
-    await login(user);
+    let token = await login(user);
+    console.log(token);
+    if(token.token == undefined){
+        error.value = true;
+    }else{
+        error.value = false;
+        localStorage.setItem("token", token.token);
+        localStorage.setItem("userid", token.userId);
+        window.location.href = "/";
+    }
 }
 
 function togglePasswordVisibility() {

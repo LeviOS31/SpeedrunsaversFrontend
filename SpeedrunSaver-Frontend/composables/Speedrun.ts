@@ -19,3 +19,11 @@ export const SubmitSpeedrun = async (speedrun) => {
             return res.status
         })
 }
+
+export const getLatestSpeedruns = async () => {
+    return await fetch(`http://localhost:5099/Speedrun/LatestRuns`)
+    .then((res) => res.json())
+    .then((data) => {
+        return data;
+    });
+}
