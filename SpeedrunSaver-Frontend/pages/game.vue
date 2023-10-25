@@ -4,11 +4,16 @@
         <div class=" bg-gray-300 rounded-xl p-4 my-6 mr-2 flex">
             <img :src="game.gameImage" alt="" width="200px" height="200px" class="pointer-events-none object-cover group-hover:opacity-75" />
             <div class="ml-5">
-                <p>{{ game.gameName }}</p>
-                <p>About: {{ game.gameDescription }}</p>
+                <NuxtLink :to="`/game?id=${game.id}`" class="text-4xl font-bold text-green-600">{{ game.gameName }}</NuxtLink>
+                <p class="font-semibold text-gray-500">{{ game.gameDescription }}</p>
                 <p>Developer: {{ game.developer }}</p>
                 <p>Publisher: {{ game.publisher }}</p>
                 <p>Release date: {{ game.releaseDate.split("T")[0] }}</p>
+                <div>
+                    <div class=" bg-gray-400 w-fit px-2 py-1 rounded-xl font-semibold" v-for="platform in game.platforms">
+                        <p>{{ platform.platformName }}</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class=" bg-gray-300 rounded-xl p-4 my-6 mr-2">
@@ -28,7 +33,9 @@
         </div>
     </div>
     <div class="w-3/12">
-        <div class=" bg-gray-300 rounded-xl p-4 my-6 ml-2">
+        <div class=" bg-gray-300 rounded-xl my-6 ml-2 px-4 py-2">
+            <h1 class="text-xl">Latest speedruns</h1>
+            <SpeedrunsList></SpeedrunsList>
         </div>
         <div class=" bg-gray-300 rounded-xl p-4 my-6 ml-2">
         </div>
