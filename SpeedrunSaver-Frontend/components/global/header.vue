@@ -23,18 +23,32 @@
                 <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
               </DisclosureButton>
             </div>
-            <NuxtLink v-if="!loggedin" :to="`/login`" class=" justify-self-end text-green-600 bg-gray-300 px-2 py-1 rounded-md hover:bg-slate-300">login</NuxtLink>
-            <div v-if="loggedin">
-              <button @click="dropdownswitch()" class="justify-self-end bg-gray-300 p-2 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#16a34a" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-
-              </button>
-              <div id="dropdown" class="rounded-xl bg-gray-300 p-2 text-green-600" style="visibility: hidden; position: absolute;">
-                <NuxtLink :to="`/accountdetail`">Account</NuxtLink><br>
-                <button @click="logout()">Logout</button>
-              </div>
+            <NuxtLink v-if="!loggedin" :to="`/login`" class=" justify-self-end text-green-600 bg-white px-2 py-1 rounded-md hover:bg-gray-200">login</NuxtLink>
+            <div v-if="loggedin" class="text-green-600">
+              <Menu as="div" class="relative inline-block text-left">
+                <div>
+                  <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-xl bg-white px-3 py-2 text-sm font-semibold text-green-600 hover:bg-gray-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentcolor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                    {{ username }}
+                  </MenuButton>
+                </div>
+                <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                  <MenuItems class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div class="py-1">
+                      <MenuItem v-slot="{ active }">
+                        <NuxtLink :to="`/accountdetail`"  :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">Account settings</NuxtLink>
+                      </MenuItem>
+                      <form method="POST" action="#">
+                        <MenuItem v-slot="{ active }">
+                          <button @click="logout()" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block w-full px-4 py-2 text-left text-sm']">Sign out</button>
+                        </MenuItem>
+                      </form>
+                    </div>
+                  </MenuItems>
+                </transition>
+              </Menu>
             </div>
           </div>
         </div>
@@ -46,10 +60,13 @@
   import { verify } from '~/composables/User'
   import { Disclosure, DisclosureButton} from '@headlessui/vue'
   import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+  import {getuser} from '~/composables/User'
+  import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+  import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
   let loggedin = ref(false)
   let dropdown = ref(false)
-  let username;
+  let username = ref("");
 
   const navigation = [
     { name: 'Games', link: '/', current: true },
@@ -74,6 +91,8 @@
       if(await verify(token, userid)) {
         loggedin.value = true
         console.log("logged in")
+        let user = await getuser(userid)
+        username.value = user.username
       }
       else{
         window.location.href = "/login"

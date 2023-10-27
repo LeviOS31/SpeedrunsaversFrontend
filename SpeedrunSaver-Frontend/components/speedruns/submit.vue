@@ -143,7 +143,7 @@ function submit (){
             "categoryId": ${category.value},
             "platformId": ${platform.value},
             "status": 0,
-            "userId": 3
+            "userId": ${localStorage.getItem("userid")}
         }
     `
     console.log(dataspeedrun)

@@ -17,8 +17,8 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr v-if="props.speedruns.length > 0" v-for="(speedrun, index) in props.speedruns" :key="speedrun.id" @click="gotorun(speedrun.id)" class=" hover:bg-gray-200 cursor-pointer">
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ index + 1 }}</td>
+                            <tr v-if="props.speedruns.length > 0" v-for="speedrun in props.speedruns" :key="speedrun.id" @click="gotorun(speedrun.id)" class=" hover:bg-gray-200 cursor-pointer">
+                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ speedrun.rank }}</td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ speedrun.user.username }}</td>
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ speedrun.time.split("T")[1] }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ speedrun.date.split("T")[0] }}</td>

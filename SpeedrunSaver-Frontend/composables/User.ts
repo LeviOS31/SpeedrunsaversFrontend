@@ -39,3 +39,35 @@ export const verify = async (token, userid) => {
         }
     })
 }
+
+export const verifyAdmin = async (token, userid) => {
+    return await fetch(`http://localhost:5099/User/Checks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token: token,
+            userid: userid,
+            accesforadmin: true, 
+        })
+    })
+    .then(response=>{
+
+        if(response.ok) {
+            return true;
+        }
+        else { 
+            return false;
+        }
+    })
+}
+
+export const getuser = async (userid) => {
+    return await fetch(`http://localhost:5099/User/Specific?id=${userid}`)
+    .then((res) => res.json())
+    .then((data) => {
+            return data;
+        }
+    );
+}
