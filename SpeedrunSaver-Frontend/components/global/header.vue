@@ -9,8 +9,7 @@
               </div>
               <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                  <NuxtLink v-for="item in navigation" :key="item.name" :to="item.link" class="text-white hover:bg-green-500 hover:bg-opacity-75 rounded-md px-3 py-2 text-sm font-medium">{{ item.name }}</NuxtLink >
-                 
+                  <NuxtLink v-if="reload" v-for="item in navigation" :key="item.name" :to="item.link" class="text-white hover:bg-green-500 hover:bg-opacity-75 rounded-md px-3 py-2 text-sm font-medium">{{ item.name }}</NuxtLink >
                 </div>
               </div>
             </div>
@@ -68,6 +67,8 @@
   let dropdown = ref(false)
   let username = ref("");
 
+  let reload = ref(true)
+
   const navigation = [
     { name: 'Games', link: '/', current: true },
     { name: 'Users', link: '/users', current: false },
@@ -93,8 +94,16 @@
         console.log("logged in")
         let user = await getuser(userid)
         username.value = user.username
+        if(await verifyAdmin(token, userid)){
+          navigation.push({ name: 'Admin', link: '/admin', current: false })
+          console.log("admin")
+          reload.value = false
+          reload.value = true
+        }
       }
       else{
+        localStorage.removeItem("token")
+        localStorage.removeItem("userid")
         window.location.href = "/login"
       }
     }

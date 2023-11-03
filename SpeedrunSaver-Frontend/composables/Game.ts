@@ -15,3 +15,17 @@ export const getGame = async (id: number) => {
             }
         );
 }
+
+export const createGame = async (game) => {
+    return await fetch(`http://localhost:5099/Game/Create`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(game)
+    })
+        .then((res) => {
+            console.log(res.status)
+            return res.status
+        })
+}
