@@ -20,7 +20,7 @@
             <div v-if="!renderComponentsubmit" class="sm:flex sm:items-center">
                 <div class="w-full flex items-center">
                     <h1 class="text-base text-center font-semibold leading-6 text-gray-900 mr-2">category:</h1>
-                    <select id="category" name="category" @change="changedCategory" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <select v-if="categories.length != 0" id="category" name="category" @change="changedCategory" class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         <option v-for="category in categories" :value="category.id">{{ category.categoryName }}</option>
                     </select>
                 </div>
@@ -28,7 +28,7 @@
                     <button @click="rendersubmit" class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Upload speedrun</button>
                 </div>
             </div>
-            <SpeedrunsTable v-if="renderComponentleaderboard" :speedruns="speedrunscategory" :key="componentkey" ></SpeedrunsTable>
+            <SpeedrunsTable v-if="renderComponentleaderboard && speedrunscategory" :speedruns="speedrunscategory" :key="componentkey" ></SpeedrunsTable>
             <SpeedrunsSubmit v-if="renderComponentsubmit" :game="game" :categories="categories"></SpeedrunsSubmit>
         </div>
     </div>
@@ -62,7 +62,10 @@
     let categories = await getCategories(idnumber)
     categories = categories
     console.log(categories)
-    let categoryid = categories[0].id;
+    let categoryid
+    if(categories.length != 0){
+        categoryid = categories[0].id;
+    }
 
     let speedrunscategory = await getSpeedrunsByCategory(categoryid)
     speedrunscategory = speedrunscategory
