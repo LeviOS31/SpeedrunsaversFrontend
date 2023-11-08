@@ -9,7 +9,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ['@hypernym/nuxt-anime'],
+  modules: [
+    '@hypernym/nuxt-anime'
+  ],
   anime: {
     provide: true,
   },
