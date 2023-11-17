@@ -23,4 +23,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: levios3114/Speedrunsaver-frontend:latest
+        tags: levios3114/speedrunsaver-frontend:latest
