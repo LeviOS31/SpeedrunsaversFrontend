@@ -1,7 +1,11 @@
 <template>
     <div class="flex justify-center">
-        <div class="w-9/12 bg-gray-300 rounded-xl my-10 p-4">
-            <h2 class=" text-2xl">{{poll.pollName}}</h2>
+        <PollsEdit v-if="Edit" :poll="poll"></PollsEdit>
+        <div v-if="!Edit" class="w-9/12 bg-gray-300 rounded-xl my-10 p-4">
+            <div class="flex justify-between">
+                <h2 class=" text-2xl">{{poll.pollName}}</h2>
+                <button v-if="admin" @click="makeeditable()" class=" bg-green-600 px-2 py-1 rounded-lg text-white">Edit poll</button>
+            </div>
             <p class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">total votes: {{ totalVotes }}</p>
             <div :key="rendervotes">
                 <div v-for="option in poll.options">
@@ -32,6 +36,31 @@
     for (let i = 0; i < poll.votes.length; i++) {
         totalVotes += poll.votes[i]
     }
+
+    var admin = ref(false)
+    var Edit = ref(false)
+
+    onMounted(async () => {
+      let token = localStorage.getItem("token")
+      let userid = localStorage.getItem("userid")
+      if (token != null) {
+        if(await verifyAdmin(token, userid)){
+            console.log("admin")
+            admin.value = true
+        }
+        else{
+          admin.value = false
+        }
+      }
+      else{
+        console.log("not logged in")
+      }
+    })
+
+    function makeeditable(){
+        Edit.value = true
+    }
+
     console.log(poll)
     console.log(totalVotes)
 
