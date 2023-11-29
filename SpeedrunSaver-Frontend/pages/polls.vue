@@ -14,7 +14,6 @@
 </template>
   
 <script setup>
-    import { ChatBubbleLeftIcon, CheckCircleIcon } from '@heroicons/vue/24/outline'
     import { getPolls } from '~/composables/Poll'
     
 

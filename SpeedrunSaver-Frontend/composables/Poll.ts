@@ -40,3 +40,30 @@ export const sendvote = async (id, option) => {
         return res.status
     })
 }
+
+export const EditPoll = async (poll) => {
+    return await fetch(`http://localhost:5254/Polls/Update?id=${poll.id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(poll)
+    })
+    .then((res) => {
+        console.log(res.status)
+        return res.status
+    })
+}
+
+export const DeletePoll = async (id) => {
+    return await fetch(`http://localhost:5254/Polls/Delete?id=${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((res) => {
+        console.log(res.status)
+        return res.status
+    })
+}

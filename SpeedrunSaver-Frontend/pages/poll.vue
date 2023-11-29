@@ -1,17 +1,17 @@
 <template>
     <div class="flex justify-center">
-        <PollsEdit v-if="Edit" :poll="poll"></PollsEdit>
+        <PollsEdit v-if="Edit" :poll="poll" :back="back"></PollsEdit>
         <div v-if="!Edit" class="w-9/12 bg-gray-300 rounded-xl my-10 p-4">
             <div class="flex justify-between">
                 <h2 class=" text-2xl">{{poll.pollName}}</h2>
                 <button v-if="admin" @click="makeeditable()" class=" bg-green-600 px-2 py-1 rounded-lg text-white">Edit poll</button>
             </div>
             <p class="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">total votes: {{ totalVotes }}</p>
-            <div :key="rendervotes">
+            <div :key="rendervotes" class="mb-4">
                 <div v-for="option in poll.options">
                     <p>{{option}}</p>
                     <div class="flex">
-                        <button type="button" @click="vote(poll.options.indexOf(option))" class="mr-4 rounded-md bg-gray-200 px-3.5 text-sm font-semibold text-green-600 shadow-sm hover:bg-indigo-100">Vote</button>
+                        <button v-if="poll.active" type="button" @click="vote(poll.options.indexOf(option))" class="mr-4 rounded-md bg-gray-200 px-3.5 text-sm font-semibold text-green-600 shadow-sm hover:bg-indigo-100">Vote</button>
                         <div class="vote-bar">
                             <div class="filled-bar text-white py-1 px-2" :style="{ width: (poll.votes[poll.options.indexOf(option)] / totalVotes) * 100 + '%' }">
                                 {{ poll.votes[poll.options.indexOf(option)] }}
@@ -20,6 +20,7 @@
                     </div>
                 </div>
             </div>
+            <NuxtLink :to="'/polls'" class="px-2 py-1 border-gray-500 border text-black rounded-lg">Back</NuxtLink>
         </div>
     </div>
 </template>
@@ -28,13 +29,13 @@
     import { sendvote } from '~/composables/Poll'
 
     const id = useRoute().query.id as string
-    var poll = await getPoll(id)
+    var poll = ref(await getPoll(id))
 
     var rendervotes = ref(0)
 
     let totalVotes = 0
-    for (let i = 0; i < poll.votes.length; i++) {
-        totalVotes += poll.votes[i]
+    for (let i = 0; i < poll.value.votes.length; i++) {
+        totalVotes += poll.value.votes[i]
     }
 
     var admin = ref(false)
@@ -45,7 +46,6 @@
       let userid = localStorage.getItem("userid")
       if (token != null) {
         if(await verifyAdmin(token, userid)){
-            console.log("admin")
             admin.value = true
         }
         else{
@@ -53,7 +53,6 @@
         }
       }
       else{
-        console.log("not logged in")
       }
     })
 
@@ -61,17 +60,18 @@
         Edit.value = true
     }
 
-    console.log(poll)
-    console.log(totalVotes)
+    async function back(){
+        Edit.value = false
+        poll.value = await getPoll(id)
+    }
 
     async function vote (option: number) {
-        console.log("voted for " + option)
         await sendvote(id, option)
-        poll = await getPoll(id)
+        poll.value = await getPoll(id)
 
         totalVotes = 0
-        for (let i = 0; i < poll.votes.length; i++) {
-            totalVotes += poll.votes[i]
+        for (let i = 0; i < poll.value.votes.length; i++) {
+            totalVotes += poll.value.votes[i]
         }
 
         rendervotes.value += 1

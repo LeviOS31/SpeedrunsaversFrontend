@@ -27,7 +27,7 @@
           <input type="text" placeholder="Option 1" name="option1" class="p-1 w-full mb-1">
           <input type="text" placeholder="Option 2" name="option2" class="p-1 w-full mb-1">
         </div>
-        <button @click="submit()" type="button" class="px-2 py-1 bg-green-600 text-white rounded-lg mt-2">Add polls</button>
+        <button @click="submit()" type="button" class="px-2 py-1 bg-green-600 text-white rounded-lg mt-2">Add poll</button>
       </form>
     </div>
   </div>
