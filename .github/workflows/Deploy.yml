@@ -20,7 +20,7 @@ jobs:
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v2
       with:
-        context: .
+        context: ./SpeedrunSaver-Frontend/
         file: ./SpeedrunSaver-Frontend/Dockerfile
         push: true
         tags: levios3114/speedrunsaver-frontend:latest

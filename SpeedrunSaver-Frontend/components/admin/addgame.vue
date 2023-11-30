@@ -64,6 +64,7 @@ function submit(){
     FormData.userId = localStorage.getItem("userid")
     console.log(FormData)
     createGame(FormData)
+    window.location.reload();
 }
 
 function getSelectValues(select) {
