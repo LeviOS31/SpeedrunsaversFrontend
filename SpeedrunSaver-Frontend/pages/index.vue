@@ -46,7 +46,30 @@
         }
     }
 
+    onMounted(() => {
+    const socket = new WebSocket('ws://localhost:8082');
 
+    socket.onopen = (event) => {
+        console.log('WebSocket connection opened:', event);
+    };
+
+    socket.onmessage = (event) => {
+        const data = event.data;
+        console.log('Received message:', data);
+
+        // Update your UI with the new data
+        // For simplicity, let's just log it to the console
+        document.body.innerHTML += `<p>${data}</p>`;
+    };
+
+    socket.onclose = (event) => {
+        console.log('WebSocket connection closed:', event);
+    };
+
+    socket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+    };
+})
 
 </script>
 
