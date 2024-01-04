@@ -47,6 +47,15 @@
     import {getCategories} from "~/composables/Category";
     import {getSpeedrunsByCategory} from "~/composables/Speedrun";
 
+    onMounted(() => {
+
+        let images = document.querySelectorAll('img')
+        for(let image of images)
+        {
+            image.width = 200
+            image.height = 200
+        }
+    }) 
     let id: string;
     let game:any;
 
@@ -94,13 +103,4 @@
 
         renderComponentsubmit.value = true;
     }
-
-    onMounted(() => {
-        let images = document.querySelectorAll('img')
-        for(let image of images)
-        {
-            image.width = 200
-            image.height = 200
-        }
-    })
 </script>

@@ -22,6 +22,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
     "@heroicons/vue": "^2.0.18",
+    "@microsoft/signalr": "^8.0.0",
     "animejs": "^3.2.1",
     "nuxt-vue-multiselect": "^1.0.4"
   }

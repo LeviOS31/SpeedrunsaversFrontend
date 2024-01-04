@@ -15,4 +15,7 @@ export default defineNuxtConfig({
   anime: {
     provide: true,
   },
+  build: {
+    transpile: ['signalr-client'],
+  }
 })

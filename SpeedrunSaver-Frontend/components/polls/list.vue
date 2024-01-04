@@ -2,7 +2,7 @@
   <div class="w-full">
     <button v-if="admin && !createpoll" @click="create_poll()" class="w-full bg-green-600 py-2 text-center rounded-lg text-white hover:bg-green-700">Add poll</button>
     <ul v-if="!createpoll" role="list" class="divide-y divide-gray-100 w-full">
-      <li v-for="poll in prop.polls" :key="poll.id" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap">
+      <li v-for="poll in polls" :key="poll.id" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap">
         <div>
           <p class="text-sm font-semibold leading-6 text-gray-900">
             <NuxtLink :to="`/poll?id=${poll.id}`" class="hover:underline">{{ poll.pollName }}</NuxtLink>
@@ -33,18 +33,16 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { CreatePoll } from '~/composables/Poll';
+  import { CreatePoll,getPolls } from '~/composables/Poll';
 
   const prop = defineProps({
-      polls: {
-          type: Array,
-          required: true
-      },
       admin: {
           type: Boolean,
           required: true
       }
   })
+
+  var polls = ref(await getPolls())
 
   var createpoll = ref(false)
 
@@ -86,7 +84,10 @@
     var json = JSON.stringify(data)
     
     console.log(json)
-    await CreatePoll(json)
-    
+    let result = await CreatePoll(json)
+    if(result == 200){
+      polls.value = await getPolls()
+    }
+    createpoll.value = false
   }
 </script>
